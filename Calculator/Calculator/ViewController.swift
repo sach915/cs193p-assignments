@@ -25,15 +25,13 @@ class ViewController: UIViewController {
         
         if userIsInTheMiddleOfTyping
         {
-            //print(decimalPressed)
-            
+            //Handling decimal values in display
             if decimalPressed
             {
                 if digit != "."
                 {
                     display!.text = textCurrentlyInDisplay + digit
                 }
-                
             }
             else if digit == "."
             {
@@ -56,7 +54,7 @@ class ViewController: UIViewController {
             }
             userIsInTheMiddleOfTyping = true;
         }
-        //drawHorizontalLine(from: 5.0, to: 8.5, using: UIColor.blue)
+
     }
     
     var displayValue: Double{
