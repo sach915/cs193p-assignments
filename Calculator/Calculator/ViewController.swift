@@ -56,7 +56,6 @@ class ViewController: UIViewController {
         }
 
     }
-    
     var displayValue: Double{
         get{
             return Double(display.text!)!
