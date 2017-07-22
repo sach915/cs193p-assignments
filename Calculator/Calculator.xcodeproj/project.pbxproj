@@ -314,6 +314,7 @@
 				C8B9F7A41EF3477C00AC275A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
