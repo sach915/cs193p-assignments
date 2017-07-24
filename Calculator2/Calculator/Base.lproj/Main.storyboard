@@ -13,7 +13,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Calculator" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Calculator2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -348,7 +348,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="M"/>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="29b-FU-EST"/>
+                                                            <action selector="saveVariable:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hen-ed-OEo"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HbX-m6-1mp">
@@ -357,6 +357,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="→M"/>
                                                         <connections>
+                                                            <action selector="evaluateVariable:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zKv-6A-A9n"/>
                                                             <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MLE-3P-JOh"/>
                                                         </connections>
                                                     </button>

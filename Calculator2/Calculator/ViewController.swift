@@ -90,11 +90,16 @@ class ViewController: UIViewController {
             descriptionDisplay!.text = brain.description
             
         }
-        
-        
+    }
+    
+    @IBAction func saveVariable(_ sender: UIButton) {
+        brain.setOperand(variable: "M")
     }
     
     
+    @IBAction func evaluateVariable(_ sender: UIButton) {
+        brain.evaluate()
+    }
 }
 
 
