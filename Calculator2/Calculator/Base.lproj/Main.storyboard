@@ -358,7 +358,6 @@
                                                         <state key="normal" title="→M"/>
                                                         <connections>
                                                             <action selector="evaluateVariable:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zKv-6A-A9n"/>
-                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MLE-3P-JOh"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>

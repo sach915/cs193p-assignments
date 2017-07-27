@@ -98,7 +98,11 @@ class ViewController: UIViewController {
     
     
     @IBAction func evaluateVariable(_ sender: UIButton) {
-        brain.evaluate()
+        print(displayValue)
+        let (result,_,_) = brain.evaluate(using: ["M":displayValue])
+        
+        displayValue = result!
+        
     }
 }
 
