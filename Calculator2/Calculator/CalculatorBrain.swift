@@ -16,8 +16,7 @@ struct CalculatorBrain {
     //var description = " "
     private var M:Double? = nil
     private var sequenceOfOperations = [(String,String)]()
-    private var printDebug = false
-    
+
     
     //making a new "type" so that our dictionary can have multiple value types. Under scope of CalculatorBrain
     //so its type is CalculatorBrain.constant or CalculatorBrain.unaryOperation
@@ -27,6 +26,7 @@ struct CalculatorBrain {
         case binaryOperation((Double, Double) -> Double, (String,String)->String)
         case equals
         case clear
+        case undo
         
     }
     
@@ -48,7 +48,8 @@ struct CalculatorBrain {
             "-" : Operation.binaryOperation({$0 - $1}, {"("+$0+"-"+$1+")"}),
             "x^y" : Operation.binaryOperation(pow, {$0+"^("+$1+")"}),
             "x^2" : Operation.unaryOperation({$0 * $0}, {"("+$0+")^2"}),
-            "=" : Operation.equals
+            "=" : Operation.equals,
+            "↵" : Operation.undo
     ]
     
     mutating func performOperation (_ symbol:String)
@@ -57,10 +58,16 @@ struct CalculatorBrain {
         {
             sequenceOfOperations = [(String, String)]()
         }
-        else
+        else if(symbol == "↵")
+        {
+            sequenceOfOperations.removeLast()
+        }
+        
+        if(symbol != "↵")
         {
             sequenceOfOperations.append((symbol,"Operation"))
         }
+        
     }
     
     var result: Double?{
@@ -127,6 +134,14 @@ struct CalculatorBrain {
                 accumulator.0 = pendingBinaryOperation!.perform(with: accumulator.0!)
                 pendingBinaryOperation = nil
             }
+            else if(pendingBinaryOperation != nil && accumulator.0 == nil)
+            {
+                print("ENTER THIS")
+                accumulator.1 = pendingBinaryOperation!.describe(with: " ")
+
+            }
+
+      
         }
         
         
@@ -179,7 +194,7 @@ struct CalculatorBrain {
         //print("entering \(sequenceOfOperations.count)")
         for (element,type) in sequenceOfOperations
         {
-          //print(element,type)
+          print(element,type)
             switch type{
             case "Operand":
                 accumulator.0 = Double(element)
@@ -206,15 +221,21 @@ struct CalculatorBrain {
                         if accumulator.0 != nil{
                             pendingBinaryOperation = PendingBinaryOperation(function: function, firstOperand: accumulator.0!, descriptionFunction : descriptor, descriptionSoFar: accumulator.1)
                             //print("ran this")
+                            accumulator.1 = pendingBinaryOperation!.describe(with: " ")
                             accumulator.0 = nil
                         }
                     case .equals:
                         performPendingBinaryOperation()
                         
                     case .clear:
+                        print("run clear")
                         pendingBinaryOperation = nil
                         accumulator.0 = 0
                         description = " "
+                        
+                    default:
+                        break
+                        
                     }
                 }
                 
@@ -222,10 +243,10 @@ struct CalculatorBrain {
                 if let value = variables?[element]
                 {
                     accumulator.0 = value
-                    print("is before")
+                   // print(accumulator.1)
                     accumulator.1 = String(value)
-                    print("accumua is")
-                    print(accumulator.1)
+                    //print("accumua is")
+                   // print(accumulator.1)
                 }
                 else
                 {
@@ -236,10 +257,12 @@ struct CalculatorBrain {
             default: break
                 
                 
-                
+            
             }
+            //print(accumulator.1)
         }
-        print(" ")
+        print(" end ")
+        print()
 
         
         return(result,resultIsPending,description)

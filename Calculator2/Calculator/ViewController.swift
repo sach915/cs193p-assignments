@@ -68,7 +68,8 @@ class ViewController: UIViewController {
     
     //Initialize a private member variable of type calcbrain
     private var brain = CalculatorBrain()
-    
+    var dictValues : Dictionary<String,Double>? = nil
+    var variableSaved: Bool = false
     
     @IBAction func performOperation(_ sender: UIButton) {
         
@@ -81,27 +82,53 @@ class ViewController: UIViewController {
         
         if let mathematicalSymbol = sender.currentTitle{
             brain.performOperation(mathematicalSymbol)
+        
+            let evaluation:(Double?,Bool,String)
             
-            if let result = brain.result{
-                displayValue = result
-            }
+        if(dictValues != nil)
+        {
+            evaluation = brain.evaluate(using: dictValues)
+        }
+        else
+        {
+            evaluation = brain.evaluate()
+        }
+            
+        if(evaluation.0 != nil)
+        {
+            displayValue = evaluation.0!
+        }
             
             
-            descriptionDisplay!.text = brain.description
+        descriptionDisplay!.text = evaluation.2
             
         }
     }
     
     @IBAction func saveVariable(_ sender: UIButton) {
         brain.setOperand(variable: "M")
+        dictValues = nil
+        variableSaved = true
     }
     
+
     
     @IBAction func evaluateVariable(_ sender: UIButton) {
-        print(displayValue)
-        let (result,_,_) = brain.evaluate(using: ["M":displayValue])
+        //print(displayValue)
         
-        displayValue = result!
+        if(variableSaved)
+        {
+            dictValues = ["M":displayValue]
+            let (result,_,description) = brain.evaluate(using: dictValues)
+        
+            if result != nil{
+                displayValue = result!
+                descriptionDisplay!.text = description
+            }
+            
+            userIsInTheMiddleOfTyping = false
+            variableSaved = false
+        }
         
     }
 }
