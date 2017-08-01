@@ -16,7 +16,7 @@ struct CalculatorBrain {
     //var description = " "
     private var M:Double? = nil
     private var sequenceOfOperations = [(String,String)]()
-
+    
     
     //making a new "type" so that our dictionary can have multiple value types. Under scope of CalculatorBrain
     //so its type is CalculatorBrain.constant or CalculatorBrain.unaryOperation
@@ -88,9 +88,9 @@ struct CalculatorBrain {
         }
     }
     
-
     
-
+    
+    
     
     mutating func setOperand(_ operand:Double)
     {
@@ -126,7 +126,7 @@ struct CalculatorBrain {
         //print(accumulator.1)
         
         var pendingBinaryOperation : PendingBinaryOperation?
-
+        
         func performPendingBinaryOperation(){
             if pendingBinaryOperation != nil && accumulator.0 != nil {
                 //print( String(accumulator.0!) + " " + accumulator.1)
@@ -138,21 +138,21 @@ struct CalculatorBrain {
             {
                 print("ENTER THIS")
                 accumulator.1 = pendingBinaryOperation!.describe(with: " ")
-
+                
             }
-
-      
+            
+            
         }
         
         
-         struct PendingBinaryOperation {
+        struct PendingBinaryOperation {
             let function: ((Double,Double) -> Double)
             let firstOperand : Double
             let descriptionFunction: ((String,String) -> String)
             let descriptionSoFar : String
             
             func perform(with secondOperand : Double) -> Double {
-               // print("ran THIS")
+                // print("ran THIS")
                 return function(firstOperand,secondOperand)
             }
             
@@ -194,7 +194,7 @@ struct CalculatorBrain {
         //print("entering \(sequenceOfOperations.count)")
         for (element,type) in sequenceOfOperations
         {
-          print(element,type)
+            print(element,type)
             switch type{
             case "Operand":
                 accumulator.0 = Double(element)
@@ -202,7 +202,7 @@ struct CalculatorBrain {
             case "Operation":
                 if let operation = operations[element]
                 {
-                   // print(accumulator.1)
+                    // print(accumulator.1)
                     
                     switch operation{
                     case .constant(let value, let character): //associated constant value
@@ -243,27 +243,27 @@ struct CalculatorBrain {
                 if let value = variables?[element]
                 {
                     accumulator.0 = value
-                   // print(accumulator.1)
+                    // print(accumulator.1)
                     accumulator.1 = String(value)
                     //print("accumua is")
-                   // print(accumulator.1)
+                    // print(accumulator.1)
                 }
                 else
                 {
                     accumulator.0 = 0.0
                     accumulator.1 = "M"
                 }
-            
+                
             default: break
                 
                 
-            
+                
             }
             //print(accumulator.1)
         }
         print(" end ")
         print()
-
+        
         
         return(result,resultIsPending,description)
     }

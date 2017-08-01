@@ -54,7 +54,7 @@ class ViewController: UIViewController {
             }
             userIsInTheMiddleOfTyping = true;
         }
-
+        
     }
     var displayValue: Double{
         get{
@@ -82,25 +82,25 @@ class ViewController: UIViewController {
         
         if let mathematicalSymbol = sender.currentTitle{
             brain.performOperation(mathematicalSymbol)
-        
+            
             let evaluation:(Double?,Bool,String)
             
-        if(dictValues != nil)
-        {
-            evaluation = brain.evaluate(using: dictValues)
-        }
-        else
-        {
-            evaluation = brain.evaluate()
-        }
+            if(dictValues != nil)
+            {
+                evaluation = brain.evaluate(using: dictValues)
+            }
+            else
+            {
+                evaluation = brain.evaluate()
+            }
             
-        if(evaluation.0 != nil)
-        {
-            displayValue = evaluation.0!
-        }
+            if(evaluation.0 != nil)
+            {
+                displayValue = evaluation.0!
+            }
             
             
-        descriptionDisplay!.text = evaluation.2
+            descriptionDisplay!.text = evaluation.2
             
         }
     }
@@ -111,7 +111,7 @@ class ViewController: UIViewController {
         variableSaved = true
     }
     
-
+    
     
     @IBAction func evaluateVariable(_ sender: UIButton) {
         //print(displayValue)
@@ -120,7 +120,7 @@ class ViewController: UIViewController {
         {
             dictValues = ["M":displayValue]
             let (result,_,description) = brain.evaluate(using: dictValues)
-        
+            
             if result != nil{
                 displayValue = result!
                 descriptionDisplay!.text = description
