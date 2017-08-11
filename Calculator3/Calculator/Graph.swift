@@ -9,8 +9,6 @@
 import Foundation
 
 struct Graph{
-    let verticalShift : Double
-    let horizontalShift : Double
-    
+    let function : ((Double)->Double)?
     
 }
