@@ -18,6 +18,7 @@ struct CalculatorBrain {
     private var sequenceOfOperations = [(String,String)]()
     
     
+    
     //making a new "type" so that our dictionary can have multiple value types. Under scope of CalculatorBrain
     //so its type is CalculatorBrain.constant or CalculatorBrain.unaryOperation
     private enum Operation{
@@ -136,7 +137,6 @@ struct CalculatorBrain {
             }
             else if(pendingBinaryOperation != nil && accumulator.0 == nil)
             {
-                print("ENTER THIS")
                 accumulator.1 = pendingBinaryOperation!.describe(with: " ")
                 
             }
@@ -194,7 +194,6 @@ struct CalculatorBrain {
         //print("entering \(sequenceOfOperations.count)")
         for (element,type) in sequenceOfOperations
         {
-            print(element,type)
             switch type{
             case "Operand":
                 accumulator.0 = Double(element)
@@ -211,7 +210,7 @@ struct CalculatorBrain {
                     case .unaryOperation(let function, let descriptor):
                         if accumulator.0 != nil {
                             accumulator.1 = descriptor(accumulator.1)
-                            print(accumulator.1)
+                            //print(accumulator.1)
                             accumulator.0 = function(accumulator.0!)
                         }
                     case .binaryOperation(let function, let descriptor):
@@ -228,7 +227,7 @@ struct CalculatorBrain {
                         performPendingBinaryOperation()
                         
                     case .clear:
-                        print("run clear")
+                        //print("run clear")
                         pendingBinaryOperation = nil
                         accumulator.0 = 0
                         description = " "
@@ -261,8 +260,8 @@ struct CalculatorBrain {
             }
             //print(accumulator.1)
         }
-        print(" end ")
-        print()
+       // print(" end ")
+       // print()
         
         
         return(result,resultIsPending,description)

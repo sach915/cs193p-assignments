@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController {
+class CalculatorViewController: UIViewController,UISplitViewControllerDelegate {
     
     @IBOutlet weak var display: UILabel! // IMPLICITLY UNWRAPPED OPTIONAL
     //of type optional uilabel because ios needs a quick second to set the optional and connect ui to code. Whenenver it needs to be used you need to unwrap it with ! again
@@ -18,9 +18,17 @@ class CalculatorViewController: UIViewController {
     var userIsInTheMiddleOfTyping = false
     var decimalPressed = false
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.splitViewController?.delegate = self
+    }
+    
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        return true
+    }
+    
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
-        //print("\(digit) was called")
         let textCurrentlyInDisplay = display!.text!
         
         if userIsInTheMiddleOfTyping
@@ -114,8 +122,7 @@ class CalculatorViewController: UIViewController {
     
     
     @IBAction func evaluateVariable(_ sender: UIButton) {
-        //print(displayValue)
-        
+
         if(variableSaved)
         {
             dictValues = ["M":displayValue]
@@ -130,6 +137,22 @@ class CalculatorViewController: UIViewController {
             variableSaved = false
         }
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        var destinationViewController = segue.destination
+        if let navigationViewController = destinationViewController as? UINavigationController
+        {
+            destinationViewController = navigationViewController.visibleViewController ?? destinationViewController
+        }
+        
+        if let graphViewController = destinationViewController as? GraphViewController
+        {
+            graphViewController.brain = brain
+            
+            graphViewController.title = "Graphing : " + (descriptionDisplay.text ?? " ")
+        }
     }
 }
 

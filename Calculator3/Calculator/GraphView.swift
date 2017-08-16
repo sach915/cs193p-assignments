@@ -8,17 +8,20 @@
 
 import UIKit
 
+protocol GraphDataSource:class{
+    func XToY (x:Double) -> Double?
+}
+
 @IBDesignable
 class GraphView: UIView {
+    
+    var graphDataSource:GraphDataSource? = nil
     
     @IBInspectable
     var scale:CGFloat = 1 { didSet{setNeedsDisplay()}}
     
     @IBInspectable
     var axes:AxesDrawer = AxesDrawer() { didSet{setNeedsDisplay()}}
-    
-    @IBInspectable
-    var function : ((Double) -> Double)? = {3*$0} { didSet{setNeedsDisplay()}}
     
     @IBInspectable
     var origin = CGPoint() { didSet{setNeedsDisplay()}}
@@ -34,7 +37,7 @@ class GraphView: UIView {
         case .changed,.ended:
             scale *= pinchRecognizer.scale
             pinchRecognizer.scale = 1
-            print(scale)
+            //print(scale)
         default:
             break
         }
@@ -44,18 +47,18 @@ class GraphView: UIView {
     {
         switch tapRecognizer.state{
         case .ended:
-          print("entered")
-          print("old origin \(origin)")
-          let newCenter = tapRecognizer.location(in: self)
-          print("New Center is \(newCenter)")
-          
-          let dy = bounds.midY - newCenter.y
-          origin.y = origin.y + dy
-          
-          let dx = bounds.midX - newCenter.x
-          origin.x = origin.x + dx
-          print("new origin is \(origin)")
-
+           // print("")
+           // print("old origin \(origin)")
+            let newCenter = tapRecognizer.location(in: self)
+           // print("New Center is \(newCenter)")
+            
+            let dy = bounds.midY - newCenter.y
+            origin.y = origin.y + dy
+            
+            let dx = bounds.midX - newCenter.x
+            origin.x = origin.x + dx
+           // print("new origin is \(origin)")
+            
         default:
             break
         }
@@ -65,7 +68,7 @@ class GraphView: UIView {
     {
         switch panRecognizer.state{
         case .changed:
-            print("entered")
+            //print("entered")
             let point = panRecognizer.translation(in: self)
             origin.x = origin.x + point.x
             origin.y = origin.y + point.y
@@ -74,7 +77,7 @@ class GraphView: UIView {
             break
         }
     }
-
+    
     
     private func convertToCGPoint(from : (x:Double,y:Double)) -> CGPoint
     {
@@ -94,22 +97,28 @@ class GraphView: UIView {
         var x = Double(-origin.x)/Double(scale) // leftmost x coord
         var started = false
         let path = UIBezierPath()
-
+        
         
         while(x < Double(bounds.maxX))
         {
-            let y = function!(x)
-            let newPoint = convertToCGPoint(from: (x,y))
-           // print(x,y)
-           // print(newPoint)
+            let y = graphDataSource?.XToY(x: x)
+            let isRealNumber = !(y?.isNaN ?? false)
             
-            if(!started)
+            if(y != nil)&&(isRealNumber)
             {
-                path.move(to: newPoint)
-                started = true
-            }
-            else{
-                path.addLine(to: newPoint)
+                let newPoint = convertToCGPoint(from: (x,y!))
+                
+                // print(x,y)
+                // print(newPoint)
+                
+                if(!started)
+                {
+                    path.move(to: newPoint)
+                    started = true
+                }
+                else{
+                    path.addLine(to: newPoint)
+                }
             }
             x = x + step
         }
@@ -118,7 +127,7 @@ class GraphView: UIView {
         
         path.stroke()
     }
-
+    
     
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -132,13 +141,12 @@ class GraphView: UIView {
         //print(origin)
         axes.drawAxes(in: bounds, origin: origin, pointsPerUnit: scale)
         
-        if function != nil{
-            drawGraph()
-        }
+        drawGraph()
         
-    
+        
+        
         
     }
     
-
+    
 }

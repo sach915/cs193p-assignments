@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GraphViewController: UIViewController {
+class GraphViewController: UIViewController,GraphDataSource {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +24,7 @@ class GraphViewController: UIViewController {
     @IBOutlet weak var graphView: GraphView!
     {
         didSet{
+            graphView.graphDataSource = self
             let pinchRecognizer = UIPinchGestureRecognizer(target: graphView, action: #selector(GraphView.changeScale(byReactingTo:)))
             let tapRecognizer = UITapGestureRecognizer(target: graphView, action: #selector(GraphView.changeCenter(byReactingTo:)))
             tapRecognizer.numberOfTapsRequired = 2
@@ -32,23 +33,20 @@ class GraphViewController: UIViewController {
             graphView.addGestureRecognizer(pinchRecognizer)
             graphView.addGestureRecognizer(tapRecognizer)
             graphView.addGestureRecognizer(panRecognizer)
-            updateUI()
         }
     }
     
+    var brain = CalculatorBrain()
     
-    var graph = Graph(function: nil)
-    {
-        didSet{
-            updateUI()
-        }
+
+
+    
+    func XToY(x: Double) -> Double? {
+       let evaluate = brain.evaluate(using: ["M":x])
+        
+        return evaluate.0
     }
     
-    private func updateUI()
-    {
-        graphView.function = graph.function
-       
-    }
     
 
     /*
