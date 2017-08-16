@@ -89,7 +89,7 @@ class ViewController: UIViewController {
             {
                 evaluation = brain.evaluate(using: dictValues)
             }
-            else
+            else 
             {
                 evaluation = brain.evaluate()
             }
