@@ -38,17 +38,17 @@ class TweetTableViewCell: UITableViewCell {
             
         }
         if array != nil{
-            let text = tweetTextLabel?.text
+            let text = tweetTextLabel.text
             
             if text != nil{
                 //let coloredText = NSMutableAttributedString(string: text!)
-                let coloredText = tweetTextLabel.attributedText as? NSMutableAttributedString
+                let coloredText = tweetTextLabel?.attributedText as? NSMutableAttributedString
                 
                 
                 for item in array!
                 {
                     coloredText?.addAttribute(NSForegroundColorAttributeName, value: with, range: item.nsrange)
-                    tweetTextLabel.attributedText = coloredText
+                    tweetTextLabel?.attributedText = coloredText
                     
                 }
             }
@@ -60,7 +60,8 @@ class TweetTableViewCell: UITableViewCell {
     private func updateUI()
     {
          //UPDATE FONT COLOR OF HASHTAGS,URLS,AND USER MENTIONS
-         tweetTextLabel?.text = tweet?.text
+         tweetTextLabel.text = tweet?.text
+         //print(tweetTextButton?.titleLabel?.text)
          updateFontColor(of: .hashTag, with: UIColor.blue)
          updateFontColor(of: .url, with: UIColor.orange)
          updateFontColor(of: .user, with: UIColor.brown)
@@ -76,6 +77,7 @@ class TweetTableViewCell: UITableViewCell {
                 if let imgData = try? Data(contentsOf: profileImageURL)
                 {
                     DispatchQueue.main.async{ [weak self] in
+                        print(profileImageURL)
                         self?.tweetProfileImageView?.image = UIImage(data: imgData)
                     }
                 }

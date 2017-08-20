@@ -105,6 +105,28 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        indexPathSelected = indexPath
+        //print("here")
+        performSegue(withIdentifier: "ShowMentions", sender: self)
+    }
+    
+    private var indexPathSelected : IndexPath = IndexPath()
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dvc = segue.destination
+        
+        if let mentionsTableViewController = dvc as? MentionsTableViewController
+        {
+            if segue.identifier == "ShowMentions"
+            {
+                //print(indexPathSelected.section)
+                //print(indexPathSelected.row)
+                mentionsTableViewController.tweet = tweets[indexPathSelected.section][indexPathSelected.row]
+            }
+        }
+    }
+    
 
     
 

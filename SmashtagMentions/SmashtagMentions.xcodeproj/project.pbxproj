@@ -79,9 +79,9 @@
 			children = (
 				C83659FE1F463D5100C67B00 /* TweetTableViewController.swift */,
 				C8365A041F473C3E00C67B00 /* TweetTableViewCell.swift */,
+				C8365A091F489BE600C67B00 /* MentionsTableViewController.swift */,
 				C83659FD1F463D2400C67B00 /* Supporting Files */,
 				C83659EF1F463CBD00C67B00 /* Main.storyboard */,
-				C8365A091F489BE600C67B00 /* MentionsTableViewController.swift */,
 				C83659F71F463CBD00C67B00 /* Info.plist */,
 			);
 			path = Smashtag;
