@@ -57,7 +57,6 @@ class MentionsTableViewController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        //print(tweetData.count)
         return tweetData.count
     }
     
@@ -71,15 +70,21 @@ class MentionsTableViewController: UITableViewController {
             return mediaItem.count
         }
     }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0
+        if let header = sectionToSectionHeader[indexPath.section]
         {
-            return 100
+            switch(header)
+            {
+            case "Images":
+                    return 300
+            default:
+                return 30
+            }
         }
-        
         return 30
-        
     }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var identifier:String = " "
@@ -101,15 +106,24 @@ class MentionsTableViewController: UITableViewController {
             {
             case .mediaItem(let mediaItem):
                 let mediaForRow = mediaItem[indexPath.row]
-
-                DispatchQueue.global().async {
-                    let imageData = try? Data(contentsOf: mediaForRow.url)
-                    DispatchQueue.main.async{
-                        cell.imageView?.image = UIImage(data: imageData!)
-                        cell.setNeedsLayout()
-                    }
+                if let tweetImageCell = cell as? TweetImageTableViewCell
+                {
+                    tweetImageCell.imageURL = mediaForRow.url
+                    tweetImageCell.aspectRatio = mediaForRow.aspectRatio
                 }
-                
+
+               /* DispatchQueue.global(qos: .userInitiated).async {
+                    let urlContents = try? Data(contentsOf: mediaForRow.url)
+                    DispatchQueue.main.async{
+                        if let imgData = urlContents
+                        {
+                            cell.imageView?.contentMode = .scaleAspectFit
+                            cell.imageView?.image = UIImage(data: imgData)
+                            cell.setNeedsLayout()
+                        }
+                    }
+                }*/
+        
             default:
                 break
             }
@@ -148,6 +162,24 @@ class MentionsTableViewController: UITableViewController {
         
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let header = sectionToSectionHeader[indexPath.section]
+        {
+            switch header{
+            case "Images":
+                let cell = tableView.cellForRow(at: indexPath)
+                if let tweetImageCell = cell as? TweetImageTableViewCell
+                {
+                    imageClicked = tweetImageCell.tweetImage
+                }
+                print("WillPerform")
+                performSegue(withIdentifier: "ShowImage", sender: self)
+            default:
+                break
+            }
+        }
+    }
+    
     
     /*
      // Override to support conditional editing of the table view.
@@ -184,14 +216,30 @@ class MentionsTableViewController: UITableViewController {
      }
      */
     
-    /*
+    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
+    private var imageClicked : UIImage?
+    
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destinationViewController.
      // Pass the selected object to the new view controller.
+        let dvc = segue.destination
+        switch segue.identifier!
+        {
+            case "ShowImage":
+                if let imageScrollVC = dvc as? ImageScrollViewController
+                {
+                    if imageClicked != nil
+                    {
+                        imageScrollVC.image = imageClicked
+                    }
+                }
+            default:
+                break
+        }
      }
-     */
+    
     
 }

@@ -107,7 +107,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         indexPathSelected = indexPath
-        //print("here")
         performSegue(withIdentifier: "ShowMentions", sender: self)
     }
     
@@ -120,8 +119,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
         {
             if segue.identifier == "ShowMentions"
             {
-                //print(indexPathSelected.section)
-                //print(indexPathSelected.row)
                 mentionsTableViewController.tweet = tweets[indexPathSelected.section][indexPathSelected.row]
             }
         }
