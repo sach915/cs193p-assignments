@@ -15,7 +15,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
     private var tweets = [Array<Twitter.Tweet>]()
     {
         didSet{
-            //print(tweets)
+            print(tweets)
         }
     }
     var searchText : String?
@@ -23,19 +23,13 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
         didSet{
             searchTextField?.text = searchText
             //removes keyboard on search
-            if searchTextField != nil
-            {
-                searchTextField.resignFirstResponder()
-            }
+            searchTextField.resignFirstResponder()
              tweets.removeAll()
             tableView.reloadData()
             searchForTweets()
             title = searchText
         }
     }
-    var shouldEditTextField : Bool = true
-    
-    //Implementation of internal functions
     
     private func twitterRequest() -> Twitter.Request?{
         if let query = searchText, !query.isEmpty{
@@ -45,7 +39,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
     }
     
     private var lastTwitterRequest : Twitter.Request?
-    
     private func searchForTweets(){
         if let request = twitterRequest(){
             lastTwitterRequest = request
@@ -54,7 +47,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
                     if request == self?.lastTwitterRequest{
                         self?.tweets.insert(newTweets, at: 0)
                         self?.tableView.insertSections([0], with: .fade)
-                        //above updates UI, will call necessary functions to update itself
                     }
                 }
             }
@@ -71,11 +63,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
     // MARK: - Table view data source
     {
         didSet{
-            searchTextField.text = searchText
             searchTextField.delegate = self
         }
     }
-    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == searchTextField{
@@ -109,25 +99,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
         }
 
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        indexPathSelected = indexPath
-        performSegue(withIdentifier: "ShowMentions", sender: self)
-    }
-    
-    private var indexPathSelected : IndexPath = IndexPath()
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let dvc = segue.destination
-        
-        if let mentionsTableViewController = dvc as? MentionsTableViewController
-        {
-            if segue.identifier == "ShowMentions"
-            {
-                mentionsTableViewController.tweet = tweets[indexPathSelected.section][indexPathSelected.row]
-            }
-        }
     }
     
 

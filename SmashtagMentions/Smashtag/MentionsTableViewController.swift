@@ -165,17 +165,18 @@ class MentionsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let header = sectionToSectionHeader[indexPath.section]
         {
+            let cell = tableView.cellForRow(at: indexPath)
             switch header{
             case "Images":
-                let cell = tableView.cellForRow(at: indexPath)
                 if let tweetImageCell = cell as? TweetImageTableViewCell
                 {
                     imageClicked = tweetImageCell.tweetImage
                 }
-                print("WillPerform")
+               // print("WillPerform")
                 performSegue(withIdentifier: "ShowImage", sender: self)
             default:
-                break
+                newSearchText = cell?.textLabel?.text
+                performSegue(withIdentifier: "Show Tweets with Identifier", sender: self)
             }
         }
     }
@@ -221,6 +222,7 @@ class MentionsTableViewController: UITableViewController {
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
     private var imageClicked : UIImage?
+    private var newSearchText : String?
     
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destinationViewController.
@@ -234,6 +236,14 @@ class MentionsTableViewController: UITableViewController {
                     if imageClicked != nil
                     {
                         imageScrollVC.image = imageClicked
+                    }
+                }
+            case "Show Tweets with Identifier":
+                if let tweetTVC = dvc as? TweetTableViewController
+                {
+                    if newSearchText != nil{
+                        tweetTVC.searchText = newSearchText
+                        tweetTVC.shouldEditTextField = false
                     }
                 }
             default:

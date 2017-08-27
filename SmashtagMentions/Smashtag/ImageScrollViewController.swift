@@ -35,8 +35,8 @@ class ImageScrollViewController: UIViewController {
         didSet{
             //print("Scroll init")
             scrollView.delegate = self
-            scrollView.minimumZoomScale = 0.03
-            scrollView.maximumZoomScale = 1.0
+            scrollView.minimumZoomScale = 0.20
+            scrollView.maximumZoomScale = 2.0
             scrollView.contentSize = imageView.frame.size
             scrollView.addSubview(imageView)
         }

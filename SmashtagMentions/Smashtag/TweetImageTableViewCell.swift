@@ -38,7 +38,7 @@ class TweetImageTableViewCell: UITableViewCell {
                     DispatchQueue.main.async {
                         self?.tweetImageView?.contentMode = .scaleAspectFit
                         self?.tweetImageView?.image = UIImage(data: imgData)
-                        print(self?.tweetImageView?.image)
+                       // print(self?.tweetImageView?.image)
                        // self?.setNeedsLayout()
                        // print("Set image")
                     }

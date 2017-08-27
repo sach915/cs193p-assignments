@@ -143,7 +143,6 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="tweetImageView" destination="K9b-S5-i3V" id="c0j-WW-XVk"/>
-                                    <segue destination="WRi-UG-gIF" kind="show" identifier="ShowImage" id="ES5-Sz-h0h"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MentionText" textLabel="kZ4-TH-hie" rowHeight="57" style="IBUITableViewCellStyleDefault" id="mH6-Q1-jki">
@@ -169,10 +168,14 @@
                             <outlet property="delegate" destination="aPc-wr-zAQ" id="9k5-y8-R2h"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="WRi-UG-gIF" kind="show" identifier="ShowImage" id="e3m-Zi-yEN"/>
+                        <segue destination="MZq-Mi-wma" kind="show" identifier="Show Tweets with Identifier" id="zIm-GJ-NXo"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ed-ti-Xyh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1866.4000000000001" y="67.916041979010501"/>
+            <point key="canvasLocation" x="2100" y="-88"/>
         </scene>
         <!--Image Scroll View Controller-->
         <scene sceneID="KYe-M8-Cgw">
@@ -225,4 +228,7 @@
             <point key="canvasLocation" x="16.800000000000001" y="74.212893553223395"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="zIm-GJ-NXo"/>
+    </inferredMetricsTieBreakers>
 </document>
