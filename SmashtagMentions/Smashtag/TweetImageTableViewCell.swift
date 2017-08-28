@@ -34,13 +34,9 @@ class TweetImageTableViewCell: UITableViewCell {
                 let urlContents = try? Data(contentsOf: url)
                 if let imgData = urlContents
                 {
-                    print("got image")
                     DispatchQueue.main.async {
                         self?.tweetImageView?.contentMode = .scaleAspectFit
                         self?.tweetImageView?.image = UIImage(data: imgData)
-                       // print(self?.tweetImageView?.image)
-                       // self?.setNeedsLayout()
-                       // print("Set image")
                     }
                 }
             }

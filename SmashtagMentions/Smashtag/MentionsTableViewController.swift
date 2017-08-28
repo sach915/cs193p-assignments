@@ -111,18 +111,6 @@ class MentionsTableViewController: UITableViewController {
                     tweetImageCell.imageURL = mediaForRow.url
                     tweetImageCell.aspectRatio = mediaForRow.aspectRatio
                 }
-
-               /* DispatchQueue.global(qos: .userInitiated).async {
-                    let urlContents = try? Data(contentsOf: mediaForRow.url)
-                    DispatchQueue.main.async{
-                        if let imgData = urlContents
-                        {
-                            cell.imageView?.contentMode = .scaleAspectFit
-                            cell.imageView?.image = UIImage(data: imgData)
-                            cell.setNeedsLayout()
-                        }
-                    }
-                }*/
         
             default:
                 break
@@ -174,10 +162,20 @@ class MentionsTableViewController: UITableViewController {
                 }
                // print("WillPerform")
                 performSegue(withIdentifier: "ShowImage", sender: self)
-            default:
+            case "Users","Hashtags":
                 newSearchText = cell?.textLabel?.text
                 performSegue(withIdentifier: "Show Tweets with Identifier", sender: self)
+            case "Urls":
+                let url : URL?
+                if let urlString = cell?.textLabel?.text
+                {
+                    url = URL(string: urlString)
+                    UIApplication.shared.open(url!)
+                }
+            default:
+                break
             }
+            
         }
     }
     
