@@ -21,13 +21,16 @@ class SearchTableViewController: UITableViewController {
     private var searches = [String]()
     {
         didSet{
-           /* if searches.count > 1
+            if searches.count > 100
             {
                 searches.removeLast()
+                print("Removed")
                 tableView.reloadData()
-            }*/
-            let indexPath = IndexPath(row: 0, section: 0)
-            tableView.insertRows(at: [indexPath] , with: .fade)
+            }
+            else{
+                let indexPath = IndexPath(row: 0, section: 0)
+                tableView.insertRows(at: [indexPath] , with: .fade)
+            }
         }
     }
 
