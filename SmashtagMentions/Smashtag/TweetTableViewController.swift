@@ -23,6 +23,19 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
         didSet{
             searchTextField?.text = searchText
             //removes keyboard on search
+            
+            print("got search")
+            //print("\(tabBarController?.viewControllers?[1])")
+            // Configure the searches tab
+            setUpSearchesTab()
+            
+           /* if let searchTVC = (self.tabBarController?.viewControllers?[1].contents as? SearchTableViewController)
+            {
+                print("configuring searches")
+                searchTVC.search = searchText
+                tabBarController?.viewControllers?[1] = searchTVC
+            }*/
+
             if searchTextField != nil
             {
                 searchTextField.resignFirstResponder()
@@ -36,6 +49,21 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
     var shouldEditTextField : Bool = true
     
     //Implementation of internal functions
+    
+    private func setUpSearchesTab()
+    {
+        let searchTVC : SearchTableViewController?
+        
+        if let navCon = self.tabBarController?.viewControllers?[1] as? UINavigationController
+        {
+            searchTVC = navCon.visibleViewController as? SearchTableViewController
+            searchTVC?.search = searchText
+          //  print(searchTVC?.searches)
+            navCon.viewControllers = [searchTVC!]
+            self.tabBarController?.viewControllers?[1] = navCon
+        }
+        
+    }
     
     private func twitterRequest() -> Twitter.Request?{
         if let query = searchText, !query.isEmpty{
@@ -129,8 +157,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate  {
             }
         }
     }
-    
-
-    
-
 }
+
+
